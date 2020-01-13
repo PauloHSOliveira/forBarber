@@ -4,45 +4,29 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ActivityIndicator,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Styles from './styles';
 
-import api from '../../services/api';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { signInRequest } from '../../store/modules/auth/actions';
 
 export default function Login({ navigation }) {
-    const [nameIcon, setNameIcon] = useState('eye');
+    const dispach = useDispatch();
+    const loading = useSelector(state => state.auth.loading);
 
-    const [loadingbtn, setLodingbtn] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function handleSubtmit() {
-        setLodingbtn(true);
-        const response = await api
-            .post('/sessions', {
-                email,
-                password,
-            })
-            .then(res => {
-                setLodingbtn(false);
-                navigation.navigate('Dashboard');
-            });
+        dispach(signInRequest(email, password));
     }
 
     function linkRegister() {
         navigation.navigate('Register');
     }
-
-    const Loading = () => {
-        if (loadingbtn === false) {
-            return <Text style={Styles.textbtn}>Entrar</Text>;
-        } else {
-            return <ActivityIndicator color="#FFFFFF" />;
-        }
-    };
     return (
         <KeyboardAvoidingView behavior="padding" style={Styles.container}>
             <View style={Styles.form}>
@@ -50,25 +34,28 @@ export default function Login({ navigation }) {
                     icon="email-outline"
                     label="E-mail"
                     keyboardType="email-address"
-                    returnKeyType="next"
                     value={email}
                     onChangeText={setEmail}
+                    returnKeyType="next"
                 />
 
                 <Input
                     icon="lock-outline"
                     label="Senha"
                     secureTextEntry={true}
-                    returnKeyType="go"
                     value={password}
                     onChangeText={setPassword}
+                    returnKeyType="send"
+                    OnSubmitEditing={handleSubtmit}
                 />
 
-                <TouchableOpacity style={Styles.button} onPress={handleSubtmit}>
-                    <Loading />
-                </TouchableOpacity>
+                <Button
+                    loading={loading}
+                    children={'Entrar'}
+                    onPress={handleSubtmit}
+                />
 
-                <TouchableOpacity style={{ marginTop: 10 }}>
+                <TouchableOpacity style={{ marginTop: 20 }}>
                     <Text style={{ color: '#878787' }}>Esqueci a senha</Text>
                 </TouchableOpacity>
             </View>

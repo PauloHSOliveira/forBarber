@@ -3,41 +3,33 @@ import {
     KeyboardAvoidingView,
     View,
     Text,
-    ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Styles from './styles';
 
-import api from '../../services/api';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { signUpRequest } from '../../store/modules/auth/actions';
 
-export default function Login() {
-    const [loadingbtn, setLodingbtn] = useState(false);
+export default function Register({ navigation }) {
+    const dispach = useDispatch();
+
+    const loading = useSelector(state => state.auth.loading);
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function handleSubtmit() {
-        setLodingbtn(true);
-        const response = await api
-            .post('/users', {
-                name,
-                email,
-                password,
-            })
-            .then(res => {
-                setLodingbtn(false);
-            });
+        dispach(signUpRequest(name, email, password));
     }
 
-    const Loading = () => {
-        if (loadingbtn === false) {
-            return <Text style={Styles.textbtn}>Entrar</Text>;
-        } else {
-            return <ActivityIndicator color="#FFFFFF" />;
-        }
-    };
+    function linkLogin() {
+        navigation.navigate('Login');
+    }
+
     return (
         <KeyboardAvoidingView behavior="padding" style={Styles.container}>
             <View style={Styles.form}>
@@ -61,13 +53,21 @@ export default function Login() {
                     icon="lock-outline"
                     label="Senha"
                     secureTextEntry={true}
-                    returnKeyType="go"
                     value={password}
                     onChangeText={setPassword}
+                    returnKeyType="go"
                 />
 
-                <TouchableOpacity style={Styles.button} onPress={handleSubtmit}>
-                    <Loading />
+                <Button
+                    loading={loading}
+                    children={'Registrar'}
+                    onPress={handleSubtmit}
+                />
+            </View>
+
+            <View>
+                <TouchableOpacity style={{ marginTop: 30 }} onPress={linkLogin}>
+                    <Text style={Styles.textRegister}>Retornar ao Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
