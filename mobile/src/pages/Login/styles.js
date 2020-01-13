@@ -12,9 +12,10 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
 
-    input: {
-        marginTop: 20,
-        height: 50,
+    textRegister: {
+        color: '#005AAD',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 
     button: {
@@ -30,12 +31,7 @@ const Styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
-    },
-
-    textRegister: {
-        color: '#005AAD',
-        fontSize: 16,
-        fontWeight: 'bold',
+        zIndex: 10,
     },
 });
 

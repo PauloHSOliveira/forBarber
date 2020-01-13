@@ -6,29 +6,34 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
 
-import Styles from '../styles/styles';
-import colors from '../styles/inputtheme';
+import Styles from './styles';
 
-import api from '../services/api';
+import api from '../../services/api';
+import Input from '../../components/Input';
 
-export default function Login() {
+export default function Login({ navigation }) {
+    const [nameIcon, setNameIcon] = useState('eye');
+
     const [loadingbtn, setLodingbtn] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function handleSubtmit() {
         setLodingbtn(true);
-        console.log(email, password);
+        const response = await api
+            .post('/sessions', {
+                email,
+                password,
+            })
+            .then(res => {
+                setLodingbtn(false);
+                navigation.navigate('Dashboard');
+            });
+    }
 
-        const response = await api.post('/sessions', {
-            email,
-            password,
-        });
-
-        console.log(response);
-        setLodingbtn(false);
+    function linkRegister() {
+        navigation.navigate('Register');
     }
 
     const Loading = () => {
@@ -41,28 +46,20 @@ export default function Login() {
     return (
         <KeyboardAvoidingView behavior="padding" style={Styles.container}>
             <View style={Styles.form}>
-                <TextInput
+                <Input
+                    icon="email-outline"
                     label="E-mail"
-                    mode="outlined"
                     keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
                     returnKeyType="next"
-                    theme={{ colors }}
-                    style={Styles.input}
                     value={email}
                     onChangeText={setEmail}
                 />
 
-                <TextInput
+                <Input
+                    icon="lock-outline"
                     label="Senha"
-                    mode="outlined"
                     secureTextEntry={true}
-                    autoCapitalize="none"
-                    autoCorrect={false}
                     returnKeyType="go"
-                    theme={{ colors }}
-                    style={Styles.input}
                     value={password}
                     onChangeText={setPassword}
                 />
@@ -77,7 +74,10 @@ export default function Login() {
             </View>
 
             <View>
-                <TouchableOpacity style={{ marginTop: 30 }}>
+                <TouchableOpacity
+                    style={{ marginTop: 30 }}
+                    onPress={linkRegister}
+                >
                     <Text style={Styles.textRegister}>Registrar-se</Text>
                 </TouchableOpacity>
             </View>
