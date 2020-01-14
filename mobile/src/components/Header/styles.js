@@ -11,6 +11,13 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    areaRow: {
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 40,
+    },
+
     iconBtn: {
         backgroundColor: '#0085FF',
         height: 40,
@@ -18,8 +25,15 @@ const Styles = StyleSheet.create({
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf: 'flex-end',
         marginRight: 20,
+    },
+
+    textTitle: {
+        color: '#0085FF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginTop: 20,
     },
 });
 

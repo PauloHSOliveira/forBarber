@@ -4,16 +4,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Header from '../../components/Header';
 
-export default function Dashboard() {
+export default function Notifications() {
     return (
         <View style={{ flex: 1 }}>
-            <Header title="Menu" />
+            <Header title="Notificações" />
         </View>
     );
 }
 
-Dashboard.navigationOptions = {
+Notifications.navigationOptions = {
     tabBarIcon: ({ tintColor }) => (
-        <Icon name="home-outline" size={30} color={tintColor} />
+        <Icon name="bell-outline" size={30} color={tintColor} />
     ),
 };

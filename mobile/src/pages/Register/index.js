@@ -15,7 +15,6 @@ import { signUpRequest } from '../../store/modules/auth/actions';
 
 export default function Register({ navigation }) {
     const dispach = useDispatch();
-
     const loading = useSelector(state => state.auth.loading);
 
     const [name, setName] = useState('');
