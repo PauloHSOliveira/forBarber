@@ -31,11 +31,7 @@ export default (signedIn = false) =>
                                 display: 'none',
                             },
                             style: {
-                                alignSelf: 'center',
-                                width: 300,
-                                borderRadius: 50,
-                                elevation: 5,
-                                marginBottom: 10,
+                                elevation: 2,
                             },
                         },
                     }

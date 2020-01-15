@@ -1,15 +1,58 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Header from '../../components/Header';
 import Appointment from '../../components/Appointment';
 
+import api from '../../services/api';
+
 export default function Apointments() {
+    const [appointments, setAppointments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        async function loadAppoitments() {
+            const response = await api.get('appointments').then(res => {
+                setAppointments(res.data);
+                setLoading(false);
+            });
+        }
+
+        loadAppoitments();
+    }, []);
+
+    async function handleCancel(id) {
+        const response = await api.delete(`appointments/${id}`).then(res => {
+            setAppointments(
+                appointments.map(appointment =>
+                    appointment.id === id
+                        ? {
+                              ...appointment,
+                              canceled_at: res.data.canceled_at,
+                          }
+                        : appointment
+                )
+            );
+        });
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <Header title="Agendamentos" />
-            <Appointment />
+            {loading ? (
+                <ActivityIndicator size="large" color="#0085FF" />
+            ) : (
+                <FlatList
+                    data={appointments}
+                    keyExtractor={(item, index) => index.toString(item.id)}
+                    renderItem={({ item }) => (
+                        <Appointment
+                            data={item}
+                            onCancel={() => handleCancel(item.id)}
+                        />
+                    )}
+                />
+            )}
         </View>
     );
 }
