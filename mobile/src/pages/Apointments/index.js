@@ -44,7 +44,7 @@ export default function Apointments() {
             ) : (
                 <FlatList
                     data={appointments}
-                    keyExtractor={(item, index) => index.toString(item.id)}
+                    keyExtractor={item => String(item.id)}
                     renderItem={({ item }) => (
                         <Appointment
                             data={item}
