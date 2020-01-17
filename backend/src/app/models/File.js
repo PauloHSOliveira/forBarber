@@ -9,7 +9,9 @@ class File extends Model {
         url: {
           type: Sequelize.VIRTUAL,
           get() {
-            return `${process.env.APP_URL}/files/${this.path}`;
+            // eslint-disable-next-line spaced-comment
+            //return `${process.env.APP_URL}/files/${this.path}`;
+            return `http://192.168.1.105:3333/files/${this.path}`;
           },
         },
       },

@@ -24,6 +24,7 @@ routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 
 routes.get('/providers', ProviderController.index);
+routes.get('/providers/:providerId', ProviderController.indexOne);
 routes.get('/providers/:providerId/available', AvilableController.index);
 
 routes.get('/appointments', AppointmentController.index);
