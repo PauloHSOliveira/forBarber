@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux';
 import createRouter from './routes';
 
 export default function src() {
-    const signed = useSelector(state => state.auth.signed);
+  const signed = useSelector(state => state.auth.signed);
 
-    const Routes = createRouter(signed);
+  const Routes = createRouter(signed);
 
-    return <Routes />;
+  return <Routes />;
 }

@@ -7,17 +7,21 @@ import Styles from './styles';
 
 Icon.loadFont();
 
-function Header({ title }) {
-    return (
-        <View style={Styles.header}>
-            <View style={Styles.areaRow}>
-                <Text style={Styles.textTitle}>{title}</Text>
-                <TouchableOpacity style={Styles.iconBtn}>
-                    <Icon name="dots-three-horizontal" size={20} color="#fff" />
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+function Header({ title, navigation }) {
+  function handleSubtmit() {
+    navigation.navigate('Provider');
+  }
+
+  return (
+    <View style={Styles.header}>
+      <View style={Styles.areaRow}>
+        <Text style={Styles.textTitle}>{title}</Text>
+        <TouchableOpacity style={Styles.iconBtn} onPress={handleSubtmit}>
+          <Icon name="dots-three-horizontal" size={20} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 export default withNavigation(Header);

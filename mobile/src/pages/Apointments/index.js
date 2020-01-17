@@ -8,57 +8,55 @@ import Appointment from '../../components/Appointment';
 import api from '../../services/api';
 
 export default function Apointments() {
-    const [appointments, setAppointments] = useState([]);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        async function loadAppoitments() {
-            const response = await api.get('appointments').then(res => {
-                setAppointments(res.data);
-                setLoading(false);
-            });
-        }
-
-        loadAppoitments();
-    }, []);
-
-    async function handleCancel(id) {
-        const response = await api.delete(`appointments/${id}`).then(res => {
-            setAppointments(
-                appointments.map(appointment =>
-                    appointment.id === id
-                        ? {
-                              ...appointment,
-                              canceled_at: res.data.canceled_at,
-                          }
-                        : appointment
-                )
-            );
-        });
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function loadAppoitments() {
+      const response = await api.get('appointments').then(res => {
+        setAppointments(res.data);
+        setLoading(false);
+      });
     }
 
-    return (
-        <View style={{ flex: 1 }}>
-            <Header title="Agendamentos" />
-            {loading ? (
-                <ActivityIndicator size="large" color="#0085FF" />
-            ) : (
-                <FlatList
-                    data={appointments}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => (
-                        <Appointment
-                            data={item}
-                            onCancel={() => handleCancel(item.id)}
-                        />
-                    )}
-                />
-            )}
-        </View>
-    );
+    loadAppoitments();
+  }, []);
+
+  async function handleCancel(id) {
+    const response = await api.delete(`appointments/${id}`).then(res => {
+      setAppointments(
+        appointments.map(appointment =>
+          appointment.id === id
+            ? {
+                ...appointment,
+                canceled_at: res.data.canceled_at,
+              }
+            : appointment
+        )
+      );
+    });
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Header title="Agendamentos" />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0085FF" />
+      ) : (
+        <FlatList
+          data={appointments}
+          keyExtractor={item => String(item.id)}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <Appointment data={item} onCancel={() => handleCancel(item.id)} />
+          )}
+        />
+      )}
+    </View>
+  );
 }
 
 Apointments.navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-        <Icon name="file-document-box-outline" size={30} color={tintColor} />
-    ),
+  tabBarIcon: ({ tintColor }) => (
+    <Icon name="file-document-box-outline" size={30} color={tintColor} />
+  ),
 };

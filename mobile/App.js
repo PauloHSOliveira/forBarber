@@ -8,11 +8,11 @@ import { store, persistor } from './src/store';
 import App from './src/App';
 
 export default function mobile() {
-    return (
-        <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                <App />
-            </PersistGate>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  );
 }
