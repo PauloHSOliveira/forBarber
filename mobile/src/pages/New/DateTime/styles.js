@@ -28,22 +28,20 @@ const Styles = StyleSheet.create({
     marginLeft: 10,
   },
 
-  btn: {
-    backgroundColor: '#0085FF',
-    height: 50,
-    width: 300,
-    alignItems: 'center',
+  areaButtons: {
     justifyContent: 'center',
-    alignSelf: 'center',
-    borderRadius: 5,
-    elevation: 2,
-    marginTop: 150,
+    alignItems: 'center',
   },
 
-  textbtn: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  hour: {
+    backgroundColor: '#FBFBFB',
+    margin: 10,
+    height: 50,
+    width: 110,
+    borderRadius: 5,
+    elevation: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

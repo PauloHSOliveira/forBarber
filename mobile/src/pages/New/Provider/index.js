@@ -5,22 +5,16 @@ import {
   Text,
   Image,
   ActivityIndicator,
-  FlatList,
-  ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import api from '../../../services/api';
 import Styles from './styles';
 
-import ButtonDate from '../../../components/ButtonDate';
-
 export default function Provider({ navigation }) {
   const [provider, setProvider] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingDate, setLoadingDate] = useState(true);
-  const [date, setDate] = useState(new Date());
-  const [hours, setHours] = useState([]);
 
   const id = navigation.getParam('id');
   useEffect(() => {
@@ -33,30 +27,12 @@ export default function Provider({ navigation }) {
     loadProvider();
   }, []);
 
-  useEffect(() => {
-    async function loadAvailable() {
-      setLoadingDate(true);
-      const response = await api.get(`providers/${id}/available`, {
-        params: {
-          date: date.getTime(),
-        },
-      });
-      setHours(response.data);
-      setLoadingDate(false);
-    }
-
-    loadAvailable();
-  }, [date, id]);
-
-  function handleSelectHour(time) {
-    navigation.navigate('Confirm', {
-      provider,
-      time,
-    });
+  function handleAppoint() {
+    navigation.navigate('DateTime', { id });
   }
 
   return (
-    <ScrollView style={Styles.container}>
+    <SafeAreaView style={Styles.container}>
       {loading ? (
         <ActivityIndicator />
       ) : (
@@ -70,32 +46,13 @@ export default function Provider({ navigation }) {
               <Text style={Styles.title}>{provider.name}</Text>
             </View>
           </View>
-          <View style={Styles.areaButtons}>
-            <ButtonDate date={date} onChange={setDate} />
-            {loadingDate ? (
-              <ActivityIndicator />
-            ) : (
-              <FlatList
-                data={hours}
-                keyExtractor={item => item.time}
-                numColumns={2}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      item.available ? { opacity: 1 } : { opacity: 0.1 },
-                      Styles.hour,
-                    ]}
-                    onPress={() => handleSelectHour(item.value)}
-                  >
-                    <Text>{item.time}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            )}
-          </View>
+
+          <TouchableOpacity style={Styles.btn} onPress={handleAppoint}>
+            <Text style={Styles.textbtn}>Agendar</Text>
+          </TouchableOpacity>
         </View>
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -9,6 +9,7 @@ import Apoitments from './pages/Apointments';
 import Dashboard from './pages/Dashboard';
 
 import Provider from './pages/New/Provider';
+import DateTime from './pages/New/DateTime';
 import Confirm from './pages/New/Confirm';
 
 export default (signedIn = false) =>
@@ -44,6 +45,7 @@ export default (signedIn = false) =>
           screen: createStackNavigator(
             {
               Provider,
+              DateTime,
               Confirm,
             },
             {
