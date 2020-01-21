@@ -3,11 +3,11 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Image,
   ActivityIndicator,
   FlatList,
   SafeAreaView,
 } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import api from '../../../services/api';
@@ -20,12 +20,11 @@ export default function Provider({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [hours, setHours] = useState([]);
 
-  const id = navigation.getParam('id');
-  console.log(id);
+  const provider = navigation.getParam('provider');
   useEffect(() => {
     async function loadAvailable() {
       setLoadingDate(true);
-      const response = await api.get(`providers/${id}/available`, {
+      const response = await api.get(`providers/${provider.id}/available`, {
         params: {
           date: date.getTime(),
         },
@@ -35,11 +34,13 @@ export default function Provider({ navigation }) {
     }
 
     loadAvailable();
-  }, [date, id]);
+  }, [date, provider]);
 
-  function handleSelectHour(time) {
+  function handleSelectHour(hora) {
+    const dateForm = hora.split('-');
+    const time = `${dateForm[0]}-${dateForm[1]}-${dateForm[2]}-03:00`;
     navigation.navigate('Confirm', {
-      id,
+      provider,
       time,
     });
   }
@@ -57,15 +58,16 @@ export default function Provider({ navigation }) {
             numColumns={2}
             contentContainerStyle={{ flexGrow: 1 }}
             renderItem={({ item }) => (
-              <TouchableOpacity
+              <RectButton
                 style={[
                   item.available ? { opacity: 1 } : { opacity: 0.1 },
                   Styles.hour,
                 ]}
+                enabled={item.available}
                 onPress={() => handleSelectHour(item.value)}
               >
-                <Text>{item.time}</Text>
-              </TouchableOpacity>
+                <Text style={Styles.texthour}>{item.time}</Text>
+              </RectButton>
             )}
           />
         )}
@@ -77,8 +79,8 @@ export default function Provider({ navigation }) {
 Provider.navigationOptions = ({ navigation }) => ({
   title: 'Selecione dia e hora',
   headerLeft: () => (
-    <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
-      <Icon name="chevron-double-left" size={20} color="#0085FF" />
+    <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Icon name="chevron-left" size={20} color="#0085FF" />
     </TouchableOpacity>
   ),
 });

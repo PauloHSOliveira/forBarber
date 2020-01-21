@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, ActivityIndicator } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Header from '../../components/Header';
@@ -7,19 +8,22 @@ import Appointment from '../../components/Appointment';
 
 import api from '../../services/api';
 
-export default function Apointments() {
+function Apointments({ isFocused }) {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    async function loadAppoitments() {
-      const response = await api.get('appointments').then(res => {
-        setAppointments(res.data);
-        setLoading(false);
-      });
-    }
 
-    loadAppoitments();
-  }, []);
+  async function loadAppoitments() {
+    const response = await api.get('appointments').then(res => {
+      setAppointments(res.data);
+      setLoading(false);
+    });
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      loadAppoitments();
+    }
+  }, [isFocused]);
 
   async function handleCancel(id) {
     const response = await api.delete(`appointments/${id}`).then(res => {
@@ -60,3 +64,5 @@ Apointments.navigationOptions = {
     <Icon name="file-document-box-outline" size={30} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Apointments);

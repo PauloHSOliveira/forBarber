@@ -28,7 +28,7 @@ export default function Provider({ navigation }) {
   }, []);
 
   function handleAppoint() {
-    navigation.navigate('DateTime', { id });
+    navigation.navigate('DateTime', { provider });
   }
 
   return (
@@ -60,7 +60,7 @@ Provider.navigationOptions = ({ navigation }) => ({
   title: 'Prestador',
   headerLeft: () => (
     <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
-      <Icon name="chevron-double-left" size={20} color="#0085FF" />
+      <Icon name="chevron-left" size={20} color="#0085FF" />
     </TouchableOpacity>
   ),
 });

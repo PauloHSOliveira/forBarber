@@ -34,14 +34,20 @@ const Styles = StyleSheet.create({
   },
 
   hour: {
-    backgroundColor: '#FBFBFB',
+    backgroundColor: '#fff',
     margin: 10,
+    marginTop: 15,
     height: 50,
     width: 110,
     borderRadius: 5,
     elevation: 2,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  texthour: {
+    color: '#0085FF',
+    fontWeight: 'bold',
   },
 });
 
