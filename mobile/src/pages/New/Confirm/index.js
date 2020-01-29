@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { formatRelative, parseISO } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
+import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Styles from './styles';
@@ -10,7 +10,6 @@ import api from '../../../services/api';
 export default function Confirm({ navigation }) {
   const provider = navigation.getParam('provider');
   const time = navigation.getParam('time');
-
   const dateFormated = useMemo(
     () => formatRelative(parseISO(time), new Date(), { locale: pt }),
     [time]

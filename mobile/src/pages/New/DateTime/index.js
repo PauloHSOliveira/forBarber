@@ -36,9 +36,7 @@ export default function Provider({ navigation }) {
     loadAvailable();
   }, [date, provider]);
 
-  function handleSelectHour(hora) {
-    const dateForm = hora.split('-');
-    const time = `${dateForm[0]}-${dateForm[1]}-${dateForm[2]}-03:00`;
+  function handleSelectHour(time) {
     navigation.navigate('Confirm', {
       provider,
       time,

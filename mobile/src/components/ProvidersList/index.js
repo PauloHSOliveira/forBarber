@@ -44,7 +44,14 @@ function ProvidersList({ navigation }) {
               style={Styles.list}
               onPress={() => handleSelect(item.id)}
             >
-              <Image style={Styles.avatar} source={{ uri: item.avatar.url }} />
+              <Image
+                style={Styles.avatar}
+                source={{
+                  uri: item.avatar
+                    ? item.avatar.url
+                    : 'https://api.adorable.io/avatars/285/abott@adorable.png',
+                }}
+              />
             </TouchableOpacity>
           )}
         />

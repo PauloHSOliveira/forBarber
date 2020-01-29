@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { parseISO, formatRelative } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
+import pt from 'date-fns/locale/pt';
 
 import Styles from './styles';
 
